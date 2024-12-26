@@ -7,9 +7,23 @@ from datetime import datetime
 import re
 import pandas as pd
 from bs4 import BeautifulSoup
-
-import os
 import logging
+import os
+
+def create_directories(directory_path):
+  """
+  Creates the specified directories if they don't already exist.
+
+  Args:
+    directory_path: The full path to the directory to create.
+  """
+  try:
+    os.makedirs(directory_path, exist_ok=True) 
+  except OSError as error:
+    print(f"Error creating directories: {error}")
+
+# Example usage:
+directory_to_create = "AutoAction/AutoAction/logs"
 
 # Define the log file path
 log_file_path = os.path.join("logs", "app.log")  # Join the directory and filename
@@ -143,6 +157,7 @@ def insert_to_mongodb(client, item_id, table_data):
         logging.error(f"Failed to insert data for item {item_id}: {e}")
 
 def main():
+    create_directories(directory_to_create)
     client = connect_to_mongodb()
 
     for item_id in range(17621, 42000):
