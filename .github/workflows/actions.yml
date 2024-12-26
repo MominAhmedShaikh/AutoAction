@@ -1,18 +1,13 @@
 name: Run main.py Once
 
 on:
-  workflow_dispatch: # Use workflow dispatch instead of schedule
-
+  schedule:
+    - cron: '*/5 * * * *'  # Run every 5 minutes
+    
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Create Logs Directory (optional)
-        # This step creates the logs directory if it doesn't exist.
-        # Comment it out if you don't need to create the directory beforehand.
-        run: |
-          mkdir -p logs
-
       - name: Checkout repo content
         uses: actions/checkout@v2 # checkout the repository content to github runner
 
