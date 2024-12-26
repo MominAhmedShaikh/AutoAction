@@ -27,6 +27,24 @@ def fetch_product_data(item_id, headers):
     """Fetches product data from Honeysplace using dynamic URL."""
     url = f'https://www.honeysplace.com/product/{item_id}'  # Dynamically generate the URL
     print(url)    
+
+    headers = {
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+          'Accept-Language': 'en-GB,en-US;q=0.9,en;q=0.8',
+          'Cache-Control': 'max-age=0',
+          'Connection': 'keep-alive',
+          'Cookie': '_ga=GA1.1.491217983.1734183528; MCPopupClosed=yes; age=eyJpdiI6InMzRFg4SzJwSW90U0N5eGhTRVp4S3c9PSIsInZhbHVlIjoiODhVd3RpZ1VNeElsTCswaDRzYlwvQWJ4VEk3S1dzZmRTTzROcTBWa1paSzcrT0dSMnZ5MCs1WFIwZlwvbjRkOGlqWUFXZlVtaFVac1ZNYktHMnN2MTUwRUUzVG9xTGZtVkRoeGpJSkhxVG55Qm9TWDZTZnJDMzMwdk15a25RN2QxWU1DUTJybElOOTlUMTY0cmVhYXVNcTF5NUYzOU00VVhJYStzU2dHa1RTVUVHK0dpK2czWnc1eXdPVG9mdXRSd2pFcmRValF3cVJLbUZJeFM4d2d3R1NqV2dIU2ZyV0tJXC93QUt3NHpGSDdtWkg3WlR5V2dqbGxKUG5QV2xzRUdidDQ3V0kyWFZwblwvaXR5M0VEMkpcL3FjQT09IiwibWFjIjoiYzA2ZWYwMDlkYjM0OWQ3NjU3MThlYjkyNWI2MGIxNzEyMjM5NDdlZGNjZmEwODQyNjliYjU2NzcyMjhiNDdiZCJ9; remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d=eyJpdiI6Iklqd3JoSUc3SG8yU2VFeldscno0amc9PSIsInZhbHVlIjoia3pSOEZwdHlBeUIyQ291QStwd3RoUzBLQjUxdjdPSmpsTnN4dVlndlU0TVVpUXVtQUhKQlBHZ3dpWjdrZlpicEZySHo2WTBwbnJKYUhKb0xQU1BGZHN4bWVVYXZXajBqYUlPc0NrT2JaYnc9IiwibWFjIjoiMWMyODI4YzE1ZTIxMWEzMzIyOWIxY2E5NmZiNTI4ZTIzYTQ3MjU4NWY5MTZkM2VlZjM0ZDY3YmM2ODQ0ZDljNSJ9; laravel_session=eyJpdiI6ImdtcFRVcWVqVmVBdjhUUVp6SFo2S0E9PSIsInZhbHVlIjoieU5mRWRUSVlZUEd2VmFwN00zT1pobFwvYUtsY3loeDFyRWFOTjV5SjRQb3o3YXVreFBINFlTUG9rSTkzWHFlbmNvRG9SalBoSk9MN3hlVkhZK09EV3lRPT0iLCJtYWMiOiIxMWEyMDhhYmQ2YTE4YzBkMjM1MDE2NGY4ZGEwMzMxYTRiNmZiODQ4MjZlOTgwNzJhMzdkYTZkYzQxOThlYjUxIn0%3D; _ga_Z5QXH7PSMN=GS1.1.1735136798.14.1.1735139096.0.0.0',
+          'Sec-Fetch-Dest': 'document',
+          'Sec-Fetch-Mode': 'navigate',
+          'Sec-Fetch-Site': 'none',
+          'Sec-Fetch-User': f'?{itemId}',
+          'Upgrade-Insecure-Requests': f'{itemId}',
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+          'sec-ch-ua': '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
+          'sec-ch-ua-mobile': '?0',
+          'sec-ch-ua-platform': '"macOS"',
+      }
+
     try:
         response = requests.get(url, headers=headers)
         print(response.status_code)        
