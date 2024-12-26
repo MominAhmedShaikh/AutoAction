@@ -10,7 +10,7 @@ import os
 
 
 uri = os.environ.get('DB_ACCESS_URI')
-base_url = os.environ.get('BASE_URL')
+# base_url = os.environ.get('BASE_URL')
 headers = os.environ.get('HEADERS')
 
 def connect_to_mongodb():
@@ -25,7 +25,7 @@ def connect_to_mongodb():
 
 def fetch_product_data(item_id, headers):
     """Fetches product data from Honeysplace using dynamic URL."""
-    url = f'{base_url}{item_id}'  # Dynamically generate the URL
+    url = f'https://www.honeysplace.com/product/{item_id}'  # Dynamically generate the URL
     print(url)    
     try:
         response = requests.get(url, headers=headers)
