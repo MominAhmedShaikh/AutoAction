@@ -7,19 +7,11 @@ import re
 import pandas as pd
 from bs4 import BeautifulSoup
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
 
-print(os.getenv('DB_ACCESS_URI')) 
-
-uri = os.getenv('DB_ACCESS_URI')
-base_url = os.getenv('BASE_URL')
-headers = os.getenv('HEADERS')
-
-# uri = os.environ.get('DB_ACCESS_URI')
-# base_url = os.environ.get('BASE_URL')
-# headers = os.environ.get('HEADERS')
+uri = os.environ['DB_ACCESS_URI']
+base_url = os.environ['BASE_URL']
+headers = os.environ.get['HEADERS']
 
 def connect_to_mongodb():
     """Connects to MongoDB and verifies the connection."""
