@@ -10,33 +10,38 @@ from bs4 import BeautifulSoup
 import logging
 import os
 
-def create_directories(directory_path):
+def create_directories_dynamically(root_directory, sub_directories):
   """
-  Creates the specified directories if they don't already exist.
+  Creates the specified directories dynamically.
 
   Args:
-    directory_path: The full path to the directory to create.
+    root_directory: The root directory path.
+    sub_directories: A list of subdirectories to create within the root directory.
+
+  Returns:
+    The full path to the created directory.
   """
   try:
-    os.makedirs(directory_path, exist_ok=True) 
+    full_path = os.path.join(root_directory, *sub_directories) 
+    os.makedirs(full_path, exist_ok=True)
+    return full_path
   except OSError as error:
     print(f"Error creating directories: {error}")
+    return None
 
 # Example usage:
-directory_to_create = "AutoAction/AutoAction/logs"
+root_dir = os.getcwd()  # Get the current working directory
+sub_dirs = ["AutoAction", "AutoAction", "logs"] 
+log_dir = create_directories_dynamically(root_dir, sub_dirs)
 
-# Define the log file path
-log_file_path = os.path.join("logs", "app.log")  # Join the directory and filename
-
-# Create the directory structure if it doesn't exist
-os.makedirs(os.path.dirname(log_file_path), exist_ok=True)  # Create parent directories
-
-# Configure logging
-logging.basicConfig(filename=log_file_path, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
-
-logger.info('Starting the process...')
-
+if log_dir:
+  log_file_path = os.path.join(log_dir, "app.log")
+  # Configure logging (as before)
+  logging.basicConfig(filename=log_file_path, level=logging.INFO, 
+                      format='%(asctime)s - %(levelname)s - %(message)s')
+  logger = logging.getLogger(__name__)
+  logger.info('Starting the process...')
+  
 # Setup logging
 LOG_FILE = log_file_path
 
@@ -157,7 +162,6 @@ def insert_to_mongodb(client, item_id, table_data):
         logging.error(f"Failed to insert data for item {item_id}: {e}")
 
 def main():
-    create_directories(directory_to_create)
     client = connect_to_mongodb()
 
     for item_id in range(17621, 42000):
