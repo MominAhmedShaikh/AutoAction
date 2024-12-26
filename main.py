@@ -11,7 +11,7 @@ import os
 
 uri = os.environ['DB_ACCESS_URI']
 base_url = os.environ['BASE_URL']
-headers = os.environ.get['HEADERS']
+headers = os.environ['HEADERS']
 
 def connect_to_mongodb():
     """Connects to MongoDB and verifies the connection."""
