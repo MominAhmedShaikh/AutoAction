@@ -135,7 +135,7 @@ def insert_to_mongodb(client, item_id, table_data):
 def main():
     client = connect_to_mongodb()
 
-    for item_id in range(17621, 42000):
+    for item_id in range(17621,17622):
         print(f"Fetching data for item {item_id}...")
         table_data = fetch_product_data(item_id,headers)
         print(f"Fetching data for item {table_data}...")
