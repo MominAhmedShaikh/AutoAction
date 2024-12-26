@@ -8,8 +8,24 @@ import re
 import pandas as pd
 from bs4 import BeautifulSoup
 
+import os
+import logging
+
+# Define the log file path
+log_file_path = os.path.join("logs", "app.log")  # Join the directory and filename
+
+# Create the directory structure if it doesn't exist
+os.makedirs(os.path.dirname(log_file_path), exist_ok=True)  # Create parent directories
+
+# Configure logging
+logging.basicConfig(filename=log_file_path, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+logger.info('Starting the process...')
+
 # Setup logging
-LOG_FILE = "logs/app.log"
+LOG_FILE = log_file_path
+
 logging.basicConfig(
     filename=LOG_FILE,
     level=logging.INFO,
