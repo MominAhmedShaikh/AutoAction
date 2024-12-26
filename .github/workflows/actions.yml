@@ -8,12 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo content
-        uses: actions/checkout@v2 # checkout the repository content to github runner
+        uses: actions/checkout@v2 
 
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9' # install the python version needed
+          python-version: '3.9'
 
       - name: Install dependencies
         run: |
@@ -23,7 +23,7 @@ jobs:
       - name: Load Environment Variables
         run: |
           pip install python-dotenv
-          echo "::add-mask::${{ secrets.ENV_FILE_CONTENTS }}" >> $GITHUB_ENV  # Mask the output
+          echo "::add-mask::${{ secrets.ENV_FILE_CONTENTS }}" >> $GITHUB_OUTPUT 
           echo "ENV_FILE_CONTENTS=${{ secrets.ENV_FILE_CONTENTS }}" >> $GITHUB_ENV
 
       - name: Execute py script
@@ -31,7 +31,7 @@ jobs:
           # Load environment variables from the .env file
           PATH: ${{ github.workspace }}/.venv/bin:$PATH  # Optional, if using virtual environment
         run: |
-          python -c "import os; from dotenv import load_dotenv; load_dotenv(); uri = os.getenv('DB_ACCESS_URI'); base_url = os.getenv('BASE_URL'); headers = os.getenv('HEADERS'); print(uri, base_url, headers)"
+          python -c "import os; from dotenv import load_dotenv; load_dotenv(); uri = os.getenv('DB_ACCESS_URI'); base_url = os.getenv('BASE_URL'); headers = os.getenv('HEADERS'); print(uri, base_url, headers)" 
 
       - name: Commit files (optional)
         run: |
