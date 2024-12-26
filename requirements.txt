@@ -3,3 +3,4 @@ requests
 pandas==2.2.2
 numpy==1.26.4
 beautifulsoup4
+python-dotenv

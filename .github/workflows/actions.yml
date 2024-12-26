@@ -20,11 +20,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Load Environment Variables
-        run: |
-          pip install python-dotenv
-          echo "::add-mask::${{ secrets.ENV_FILE_CONTENTS }}" >> $GITHUB_OUTPUT 
-          echo "ENV_FILE_CONTENTS=${{ secrets.ENV_FILE_CONTENTS }}" >> $GITHUB_ENV
 
       - name: Execute py script
         env:
