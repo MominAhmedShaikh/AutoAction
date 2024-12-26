@@ -1,8 +1,7 @@
 name: Run main.py Once
 
 on:
-  schedule:
-    - cron: '*/5 * * * *'  # Run every 5 minutes
+  workflow_dispatch: # Use workflow dispatch instead of schedule
 
 jobs:
   build:
