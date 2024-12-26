@@ -9,9 +9,9 @@ from bs4 import BeautifulSoup
 import os
 
 
-uri = os.environ('DB_ACCESS_URI')
-base_url = os.environ('BASE_URL')
-headers = os.environ('HEADERS')
+uri = os.environ.get('DB_ACCESS_URI')
+base_url = os.environ.get('BASE_URL')
+headers = os.environ.get('HEADERS')
 
 def connect_to_mongodb():
     """Connects to MongoDB and verifies the connection."""
