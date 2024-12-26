@@ -3,7 +3,7 @@ name: Run main.py Once
 on:
   schedule:
     - cron: '*/5 * * * *'  # Run every 5 minutes
-    
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,6 +26,7 @@ jobs:
           uri: ${{ secrets.DB_ACCESS_URI }}  # Assuming DB_ACCESS_URI is set as a secret
           base_url: ${{ secrets.BASE_URL }}  # Assuming BASE_URL is set as a secret
           headers: ${{ secrets.GITHUB_HEADERS }}    # Assuming HEADERS is set as a secret
+        run: python main.py
 
       - name: Commit files (optional)
         run: |
