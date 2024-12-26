@@ -31,7 +31,7 @@ def create_directories_dynamically(root_directory, sub_directories):
 
 # Example usage:
 root_dir = os.getcwd()  # Get the current working directory
-sub_dirs = ["AutoAction", "AutoAction", "logs"] 
+sub_dirs = ["logs"] 
 log_dir = create_directories_dynamically(root_dir, sub_dirs)
 
 if log_dir:
@@ -41,7 +41,7 @@ if log_dir:
                       format='%(asctime)s - %(levelname)s - %(message)s')
   logger = logging.getLogger(__name__)
   logger.info('Starting the process...')
-  
+
 # Setup logging
 LOG_FILE = log_file_path
 
