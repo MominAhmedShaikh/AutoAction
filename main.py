@@ -11,6 +11,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+print(os.getenv('DB_ACCESS_URI')) 
+
 uri = os.getenv('DB_ACCESS_URI')
 base_url = os.getenv('BASE_URL')
 headers = os.getenv('HEADERS')
