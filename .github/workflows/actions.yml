@@ -26,13 +26,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Execute py script # run main.py with logging
+      - name: Execute py script
         env:
           uri: ${{ secrets.DB_ACCESS_URI }}  # Assuming DB_ACCESS_URI is set as a secret
           base_url: ${{ secrets.BASE_URL }}  # Assuming BASE_URL is set as a secret
           headers: ${{ secrets.GITHUB_HEADERS }}    # Assuming HEADERS is set as a secret
-        run: |
-          python -c "import os; import logging; def create_directories(root_directory, sub_directories): ... (rest of the Python code as above) ..." 
 
       - name: Commit files (optional)
         run: |
