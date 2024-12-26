@@ -32,7 +32,7 @@ jobs:
           base_url: ${{ secrets.BASE_URL }}  # Assuming BASE_URL is set as a secret
           headers: ${{ secrets.GITHUB_HEADERS }}    # Assuming HEADERS is set as a secret
         run: |
-          python -c "import logging; logging.basicConfig(filename='logs/app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s'); logger = logging.getLogger(__name__); logger.info('Starting the process...');"
+          python -c "import os; import logging; def create_directories(root_directory, sub_directories): ... (rest of the Python code as above) ..." 
 
       - name: Commit files (optional)
         run: |
