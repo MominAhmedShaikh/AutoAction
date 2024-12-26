@@ -20,13 +20,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Load Environment Variables (Optional)
-        run: |
-          load_dotenv()  # Assuming .env file is in the same directory
-          uri = os.getenv('DB_ACCESS_URI')
-          base_url = os.getenv('BASE_URL')
-          headers = os.getenv('HEADERS')
-          print(uri, base_url, headers)
+      # - name: Load Environment Variables (Optional)
+      #   run: |
+      #     load_dotenv()  # Assuming .env file is in the same directory
+      #     uri = os.getenv('DB_ACCESS_URI')
+      #     base_url = os.getenv('BASE_URL')
+      #     headers = os.getenv('HEADERS')
+      #     print(uri, base_url, headers)
 
       - name: Execute py script
         env:
