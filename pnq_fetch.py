@@ -196,13 +196,13 @@ def main():
         mpn = get_mpn_value(product)
 
         # Populate the product information
-        product_information['Manufacturer'] = json.loads(product_info_json).get('Manufacturer')
-        product_information['Product UPC'] = json.loads(product_info_json).get('Product UPC')
+        # product_information['Manufacturer'] = json.loads(product_info_json).get('Manufacturer')
+        # product_information['Product UPC'] = json.loads(product_info_json).get('Product UPC')
+        product_information['MPN'] = mpn
+        product_information.update(processed_prices)
         product_information['Quantity'] = quantity
         product_information['ETA'] = eta
         product_information['amazon_restricted'] = amazon_restricted
-        product_information['MPN'] = mpn
-        product_information.update(processed_prices)
         product_information['Inserted On'] = datetime.now()
 
         print(f"Got the information for item id {itemId}")
