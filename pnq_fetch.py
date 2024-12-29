@@ -179,7 +179,7 @@ def get_mpn_value(html_content):
 
 def main():
     client = connect_to_mongodb()
-    for itemId in range(1, 2):
+    for itemId in range(1, 43891):
         product_information = {}
         product, status_code = fetch_product_page(itemId, base_url)
 
@@ -203,6 +203,7 @@ def main():
         product_information['amazon_restricted'] = amazon_restricted
         product_information['MPN'] = mpn
         product_information.update(processed_prices)
+        product_information['Inserted On'] = datetime.now()
 
         print(f"Got the information for item id {itemId}")
 
