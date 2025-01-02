@@ -176,7 +176,7 @@ def get_mpn_value(html_content):
 
 def main():
     client = connect_to_mongodb()
-    for itemId in range(1, 43891):
+    for itemId in range(1, 2):
         item_id = itemId
         product_information = {}
 
@@ -192,7 +192,7 @@ def main():
         elements = soup.find_all('div', class_='col-lg-6 col-sm-12')
         data = [element.text.strip() for element in elements if element.text.strip()]
 
-        if len(data) > 1:
+        if len(data) > 1 and "stock" in data[1].lower():
             # Modify the second element for quantity
             data[1] = f"Quantity: {data[1]}"
 
@@ -207,6 +207,8 @@ def main():
 
         # Convert dictionary to JSON
         json_data = json.loads(json.dumps(data_dict, indent=4))
+
+        print(json_data)
 
         product_information['Vendor SKU']              = json_data['SKU']
         product_information['Buy Price']               = json_data.get('Wholesale')
