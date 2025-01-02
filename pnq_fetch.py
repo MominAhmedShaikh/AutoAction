@@ -183,75 +183,59 @@ def get_mpn_value(html_content):
 # 43891
 
 def main():
-    client = connect_to_mongodb()
-
     for itemId in range(18960, 43891):
         item_id = itemId
         product_information = {}
 
         try:
-            # Fetch the product page
             print(f"Fetching product for item ID {item_id}...")
+            time.sleep(1)  # Add a 1 second delay between requests
 
-            # Add a sleep delay to ensure you are not hitting rate limits
-            time.sleep(1)  # Add a 1 second delay between requests, adjust as needed
-            
             product, status_code = fetch_product_page(item_id, base_url)
             print(f"Status code for {item_id}: {status_code}")
 
-            # Check if the status code is not 200 or empty, and continue with the next iteration
             if status_code != 200 or not product:
                 print(f"Failed to fetch product page for item ID {item_id}. Status code: {status_code}")
-                continue  # Skip the current iteration and continue with the next itemId
+                continue
 
             soup = BeautifulSoup(product, 'html.parser')
-
-            # Extract and clean content from divs
             elements = soup.find_all('div', class_='col-lg-6 col-sm-12')
             if not elements:
                 print(f"No product information found for item ID {item_id}")
-                continue  # Skip if no elements are found
+                continue
 
             data = [element.text.strip() for element in elements if element.text.strip()]
 
             if len(data) > 1 and "stock" in data[1].lower():
-                # Modify the second element for quantity
                 data[1] = f"Quantity: {data[1]}"
 
-            # Preprocess data to remove unwanted characters
             processed_data = [item.replace('\n', ' ').replace('$', '') for item in data]
 
-            # Convert preprocessed data to a dictionary
             data_dict = {
                 item.split(":", 1)[0].strip(): item.split(":", 1)[1].strip()
                 for item in processed_data if ":" in item
             }
 
-            # Convert dictionary to JSON
             json_data = json.loads(json.dumps(data_dict, indent=4))
-
             print(f"Processed data for item ID {item_id}: {json_data}")
 
-            product_information['Vendor SKU']              = json_data.get('SKU')
-            product_information['Buy Price']               = json_data.get('Wholesale')
-            product_information['Promotion Price']         = json_data.get('Your Price')
-            product_information['MAP Price']               = json_data.get('MAP Price')
-            product_information['Vendor Quantity']         = json_data.get('Quantity')
-            product_information['Amazon Restricted']       = check_amazon_restriction(product)
-            product_information['Inserted On']             = datetime.utcnow().isoformat()
+            product_information['Vendor SKU'] = json_data.get('SKU')
+            product_information['Buy Price'] = json_data.get('Wholesale')
+            product_information['Promotion Price'] = json_data.get('Your Price')
+            product_information['MAP Price'] = json_data.get('MAP Price')
+            product_information['Vendor Quantity'] = json_data.get('Quantity')
+            product_information['Amazon Restricted'] = check_amazon_restriction(product)
+            product_information['Inserted On'] = datetime.utcnow().isoformat()
 
-            # Log the insert into MongoDB
             print(f"Inserting item ID {item_id} into MongoDB...")
             client = connect_to_mongodb()
             insert_to_mongodb(client, item_id, product_information)
             print(f"Successfully inserted item ID {item_id} into MongoDB.")
 
         except Exception as e:
-            # Log the error with traceback for easier debugging
             print(f"Error processing item ID {item_id}: {e}")
             traceback.print_exc()  # Print detailed error stack trace
-            continue  # Skip to next itemId in case of an error
+            continue
 
 if __name__ == "__main__":
     main()
-
