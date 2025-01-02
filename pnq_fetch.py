@@ -177,7 +177,7 @@ def get_mpn_value(html_content):
 
 def main():
     client = connect_to_mongodb()
-    for itemId in range(18940, 43891):
+    for itemId in range(18947, 43891):
         item_id = itemId
         product_information = {}
 
@@ -186,7 +186,7 @@ def main():
         print(status_code)
         if status_code != 200 and status_code != '':
             print(f"Failed to fetch product page for item ID {item_id}. Status code: {status_code}")
-            return
+            continue
 
 
         soup = BeautifulSoup(product, 'html.parser')
