@@ -200,7 +200,7 @@ def main():
             print(f"Status code for {item_id}: {status_code}")
 
             # Check if the status code is not 200 or empty, and continue with the next iteration
-            if status_code != 200 and status_code != '':
+            if status_code != 200 or status_code == '' or product == '':
                 print(f"Failed to fetch product page for item ID {item_id}. Status code: {status_code}")
                 continue  # Skip the current iteration and continue with the next itemId
 
