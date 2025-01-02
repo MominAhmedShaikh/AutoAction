@@ -9,6 +9,8 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from pymongo import MongoClient
 from bson import json_util
+import traceback
+
 
 uri = os.environ['DB_ACCESS_URI']
 base_url = os.environ['BASE_URL']
