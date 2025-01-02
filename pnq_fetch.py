@@ -178,18 +178,20 @@ def get_mpn_value(html_content):
 # Example usage:
 # 43891
 
-import traceback
-
 def main():
     client = connect_to_mongodb()
 
-    for itemId in range(18948, 43891):
+    for itemId in range(18960, 43891):
         item_id = itemId
         product_information = {}
 
         try:
             # Fetch the product page
-            print(f"Fetching product for item ID {item_id}")
+            print(f"Fetching product for item ID {item_id}...")
+
+            # Add a sleep delay to ensure you are not hitting rate limits
+            time.sleep(1)  # Add a 1 second delay between requests, adjust as needed
+            
             product, status_code = fetch_product_page(item_id, base_url)
             print(f"Status code for {item_id}: {status_code}")
 
@@ -234,9 +236,11 @@ def main():
             product_information['Amazon Restricted']       = check_amazon_restriction(product)
             product_information['Inserted On']             = datetime.utcnow().isoformat()
 
-            # Uncomment to insert into MongoDB
+            # Log the insert into MongoDB
+            print(f"Inserting item ID {item_id} into MongoDB...")
             client = connect_to_mongodb()
             insert_to_mongodb(client, item_id, product_information)
+            print(f"Successfully inserted item ID {item_id} into MongoDB.")
 
         except Exception as e:
             # Log the error with traceback for easier debugging
@@ -246,3 +250,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
