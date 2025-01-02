@@ -14,11 +14,9 @@ import time  # To add delays for troubleshooting
 
 
 
-# uri = os.environ['DB_ACCESS_URI']
-# base_url = os.environ['BASE_URL']
+uri = os.environ['DB_ACCESS_URI']
+base_url = os.environ['BASE_URL']
 
-uri = "mongodb+srv://shaikhmomin4:u8Cli5qfZYfPeVXa@miakarts.sm5kb.mongodb.net/?retryWrites=true&w=majority&appName=MiaKarts"
-base_url = 'https://www.honeysplace.com/product/'
 
 
 
@@ -47,7 +45,7 @@ def fetch_product_page(itemId,base_url):
     # Send the GET request to fetch the page
     response = requests.get(url, headers=headers)
     if response.status_code != 200:
-        print(status_code)
+        print(response.status_code)
     # Return the response status code
     return response.text,response.status_code
 
