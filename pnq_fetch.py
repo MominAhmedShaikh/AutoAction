@@ -176,7 +176,7 @@ def get_mpn_value(html_content):
 
 def main():
     client = connect_to_mongodb()
-    for itemId in range(1, 2):
+    for itemId in range(1, 43890):
         item_id = itemId
         product_information = {}
 
