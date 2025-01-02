@@ -14,6 +14,7 @@ uri = os.environ['DB_ACCESS_URI']
 base_url = os.environ['BASE_URL']
 
 
+
 def fetch_product_page(itemId,base_url):
     # Generate the URL based on the provided itemId
     url = f'{base_url}{itemId}'
@@ -176,7 +177,7 @@ def get_mpn_value(html_content):
 
 def main():
     client = connect_to_mongodb()
-    for itemId in range(1, 43890):
+    for itemId in range(14046, 43891):
         item_id = itemId
         product_information = {}
 
