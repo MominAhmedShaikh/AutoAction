@@ -25,7 +25,7 @@ def fetch_product_page(itemId,base_url):
         'Accept-Language': 'en-GB,en-US;q=0.9,en;q=0.8',
         'Cache-Control': 'max-age=0',
         'Connection': 'keep-alive',
-        'Cookie': '_ga=GA1.1.141094158.1735798558; _ga_Z5QXH7PSMN=GS1.1.1735798557.1.1.1735798674.0.0.0; XSRF-TOKEN=eyJpdiI6InN2bk9jSTlnaXFTYytlVm9oY0dJTUE9PSIsInZhbHVlIjoiOWI4T1k3dlVEWlJtVmpuZGVLTkVRbEsvUGFtOUQzM3hwQlloczJ6OU5RVVJuNlhySnFxemd4c2p3Wk9ZK2R2aXgrZVgzR2tDRVpOdlMrMGJSVFBWbjF1cmxDOWppYi9aYjlKcWp0SGVTMjVNbzk3K0tiMTlKemUvV2RadVFwZXgiLCJtYWMiOiJjZjMyNmIxMmQ0ODc4YTcxODE1NTk0OGY1M2ViOWRiODdlZTUzOGYyMTk0Y2E2ODZkNTUzMTIyZDgyNDZiYmIzIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6IjFvNTVScE5ZV0d1U2dVZTVNa3Z1QkE9PSIsInZhbHVlIjoiU1NYRTV6TUF2UnVXd3A2RjVFMzBjQ3hoRXFzQW1aa3JRSnJnUXk5TnRTMGd2VHZiNVhybUNUcXZHeS9GNFRIeXJ5a3dPU0N5MlBtVTI5Sk4vRUhOWUhmYmdjOU56TGxEZ2JnTHkvZGpqWW5hMlpnU2ZTRFJ3MmlrVEJzR2R4ZzAiLCJtYWMiOiI0MDU3ODJiNjMwZjEyZDhhZjQ0MDBjZTY0ZmZlYWU5Y2Q5NGNlYmVhMGRmMGNkYTRmZmIyNDMxM2VjNWU2OTEyIiwidGFnIjoiIn0%3D',
+        'Cookie': '_ga=GA1.1.141094158.1735798558; XSRF-TOKEN=eyJpdiI6InRtUmU3YUc0MGtpS2xIU0ZReXQrOUE9PSIsInZhbHVlIjoid2toZGg2ZDkvQWw3YmxQOUxQYU5BZWV6ME9FZ3U2SUJFMlVKc2N3bUZoSmFMcnJSOHloY0VLSkJqOFNsQUpySDdNQjdpQ3hQZnU5cE9ZWGk2Si9KN3VsV3VnTmJiNHFoWFRDN3Vtd0FGaGFTcGREbkxDWUF6WFZIL2dJVjRnQXEiLCJtYWMiOiI4MjkzODAyZWUxNmEyMTEzYzlhYWY0YTliMGRmNmJkY2VkZWNjNzUwOTRhZWFjNzdjYmZiZTFjYjc5ZDI5MTQ5IiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6ImlpT3BmMFg0QmpnNjRHa21INUprT3c9PSIsInZhbHVlIjoiNjJsMDgrb3pJZGxrQXhyMG8vQ2dIVUxBUmxSZlJpWllPRDVoZ2MvUlludGcrQktwNEZPTklFbFhBeWFMMVkrWklEME9EZ3FkY3F0RFZwMm5zUmdnZUE2bUt0NlcyalhRWlF6WmVXUjJ6ZXduVEU5dVlKWVpBd2FLOFdoRTYySlQiLCJtYWMiOiJkNmM2NmFkMDdkOWM0NjFhNmY0NWU1ODA0MjI4YWE4MGFkZjg1NjQwZGIzZjBjZWZjYjg0ZWNiYzg3MTJmZTYxIiwidGFnIjoiIn0%3D; _ga_Z5QXH7PSMN=GS1.1.1735825800.6.1.1735825803.0.0.0',
         'Sec-Fetch-Dest': 'document',
         'Sec-Fetch-Mode': 'navigate',
         'Sec-Fetch-Site': 'none',
@@ -177,15 +177,17 @@ def get_mpn_value(html_content):
 
 def main():
     client = connect_to_mongodb()
-    for itemId in range(18938, 43891):
+    for itemId in range(18940, 43891):
         item_id = itemId
         product_information = {}
 
         # Fetch the product page
         product, status_code = fetch_product_page(item_id, base_url)
-        if status_code != 200:
+        print(status_code)
+        if status_code != 200 and status_code != '':
             print(f"Failed to fetch product page for item ID {item_id}. Status code: {status_code}")
             return
+
 
         soup = BeautifulSoup(product, 'html.parser')
 
