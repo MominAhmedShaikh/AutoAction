@@ -13,6 +13,9 @@ from bson import json_util
 uri = os.environ['DB_ACCESS_URI']
 base_url = os.environ['BASE_URL']
 
+# uri = "mongodb+srv://shaikhmomin4:u8Cli5qfZYfPeVXa@miakarts.sm5kb.mongodb.net/?retryWrites=true&w=majority&appName=MiaKarts"
+# base_url = 'https://www.honeysplace.com/product/'
+
 
 
 def fetch_product_page(itemId,base_url):
@@ -175,58 +178,71 @@ def get_mpn_value(html_content):
 # Example usage:
 # 43891
 
+import traceback
+
 def main():
     client = connect_to_mongodb()
-    for itemId in range(18947, 43891):
+
+    for itemId in range(18948, 43891):
         item_id = itemId
         product_information = {}
 
-        # Fetch the product page
-        product, status_code = fetch_product_page(item_id, base_url)
-        print(status_code)
-        if status_code != 200 and status_code != '':
-            print(f"Failed to fetch product page for item ID {item_id}. Status code: {status_code}")
-            continue
+        try:
+            # Fetch the product page
+            print(f"Fetching product for item ID {item_id}")
+            product, status_code = fetch_product_page(item_id, base_url)
+            print(f"Status code for {item_id}: {status_code}")
 
+            # Check if the status code is not 200 or empty, and continue with the next iteration
+            if status_code != 200 and status_code != '':
+                print(f"Failed to fetch product page for item ID {item_id}. Status code: {status_code}")
+                continue  # Skip the current iteration and continue with the next itemId
 
-        soup = BeautifulSoup(product, 'html.parser')
+            soup = BeautifulSoup(product, 'html.parser')
 
-        # Extract and clean content from divs
-        elements = soup.find_all('div', class_='col-lg-6 col-sm-12')
-        data = [element.text.strip() for element in elements if element.text.strip()]
+            # Extract and clean content from divs
+            elements = soup.find_all('div', class_='col-lg-6 col-sm-12')
+            if not elements:
+                print(f"No product information found for item ID {item_id}")
+                continue  # Skip if no elements are found
 
-        if len(data) > 1 and "stock" in data[1].lower():
-            # Modify the second element for quantity
-            data[1] = f"Quantity: {data[1]}"
+            data = [element.text.strip() for element in elements if element.text.strip()]
 
-        # Preprocess data to remove unwanted characters
-        processed_data = [item.replace('\n', ' ').replace('$', '') for item in data]
+            if len(data) > 1 and "stock" in data[1].lower():
+                # Modify the second element for quantity
+                data[1] = f"Quantity: {data[1]}"
 
-        # Convert preprocessed data to a dictionary
-        data_dict = {
-            item.split(":", 1)[0].strip(): item.split(":", 1)[1].strip()
-            for item in processed_data if ":" in item
-        }
+            # Preprocess data to remove unwanted characters
+            processed_data = [item.replace('\n', ' ').replace('$', '') for item in data]
 
-        # Convert dictionary to JSON
-        json_data = json.loads(json.dumps(data_dict, indent=4))
+            # Convert preprocessed data to a dictionary
+            data_dict = {
+                item.split(":", 1)[0].strip(): item.split(":", 1)[1].strip()
+                for item in processed_data if ":" in item
+            }
 
-        print(json_data)
+            # Convert dictionary to JSON
+            json_data = json.loads(json.dumps(data_dict, indent=4))
 
-        product_information['Vendor SKU']              = json_data['SKU']
-        product_information['Buy Price']               = json_data.get('Wholesale')
-        product_information['Promotion Price']         = json_data.get('Your Price')
-        product_information['MAP Price']               = json_data.get('MAP Price')
-        product_information['Vendor Quantity']         = json_data.get('Quantity')
-        product_information['Amazon Restricted']       = check_amazon_restriction(product)
-        product_information['Inserted On']             = datetime.utcnow().isoformat()
-        # product_information.update(processed_prices)
+            print(f"Processed data for item ID {item_id}: {json_data}")
 
-        # print(product_information)
+            product_information['Vendor SKU']              = json_data.get('SKU')
+            product_information['Buy Price']               = json_data.get('Wholesale')
+            product_information['Promotion Price']         = json_data.get('Your Price')
+            product_information['MAP Price']               = json_data.get('MAP Price')
+            product_information['Vendor Quantity']         = json_data.get('Quantity')
+            product_information['Amazon Restricted']       = check_amazon_restriction(product)
+            product_information['Inserted On']             = datetime.utcnow().isoformat()
 
-        # Uncomment to insert into MongoDB
-        client = connect_to_mongodb()
-        insert_to_mongodb(client, item_id, product_information)
+            # Uncomment to insert into MongoDB
+            client = connect_to_mongodb()
+            insert_to_mongodb(client, item_id, product_information)
+
+        except Exception as e:
+            # Log the error with traceback for easier debugging
+            print(f"Error processing item ID {item_id}: {e}")
+            traceback.print_exc()  # Print detailed error stack trace
+            continue  # Skip to next itemId in case of an error
 
 if __name__ == "__main__":
     main()
