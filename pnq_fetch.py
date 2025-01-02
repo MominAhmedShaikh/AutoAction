@@ -10,11 +10,8 @@ from pymongo.server_api import ServerApi
 from pymongo import MongoClient
 from bson import json_util
 
-# uri = os.environ['DB_ACCESS_URI']
-# base_url = os.environ['BASE_URL']
-
-uri = "mongodb+srv://shaikhmomin4:u8Cli5qfZYfPeVXa@miakarts.sm5kb.mongodb.net/?retryWrites=true&w=majority&appName=MiaKarts"
-base_url = 'https://www.honeysplace.com/product/'
+uri = os.environ['DB_ACCESS_URI']
+base_url = os.environ['BASE_URL']
 
 
 def fetch_product_page(itemId,base_url):
@@ -27,7 +24,7 @@ def fetch_product_page(itemId,base_url):
         'Accept-Language': 'en-GB,en-US;q=0.9,en;q=0.8',
         'Cache-Control': 'max-age=0',
         'Connection': 'keep-alive',
-        'Cookie': '_ga=GA1.1.491217983.1734183528; MCPopupClosed=yes; age=eyJpdiI6InMzRFg4SzJwSW90U0N5eGhTRVp4S3c9PSIsInZhbHVlIjoiODhVd3RpZ1VNeElsTCswaDRzYlwvQWJ4VEk3S1dzZmRTTzROcTBWa1paSzcrT0dSMnZ5MCs1WFIwZlwvbjRkOGlqWUFXZlVtaFVac1ZNYktHMnN2MTUwRUUzVG9xTGZtVkRoeGpJSkhxVG55Qm9TWDZTZnJDMzMwdk15a25RN2QxWU1DUTJybElOOTlUMTY0cmVhYXVNcTF5NUYzOU00VVhJYStzU2dHa1RTVUVHK0dpK2czWnc1eXdPVG9mdXRSd2pFcmRValF3cVJLbUZJeFM4d2d3R1NqV2dIU2ZyV0tJXC93QUt3NHpGSDdtWkg3WlR5V2dqbGxKUG5QV2xzRUdidDQ3V0kyWFZwblwvaXR5M0VEMkpcL3FjQT09IiwibWFjIjoiYzA2ZWYwMDlkYjM0OWQ3NjU3MThlYjkyNWI2MGIxNzEyMjM5NDdlZGNjZmEwODQyNjliYjU2NzcyMjhiNDdiZCJ9; remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d=eyJpdiI6Iklqd3JoSUc3SG8yU2VFeldscno0amc9PSIsInZhbHVlIjoia3pSOEZwdHlBeUIyQ291QStwd3RoUzBLQjUxdjdPSmpsTnN4dVlndlU0TVVpUXVtQUhKQlBHZ3dpWjdrZlpicEZySHo2WTBwbnJKYUhKb0xQU1BGZHN4bWVVYXZXajBqYUlPc0NrT2JaYnc9IiwibWFjIjoiMWMyODI4YzE1ZTIxMWEzMzIyOWIxY2E5NmZiNTI4ZTIzYTQ3MjU4NWY5MTZkM2VlZjM0ZDY3YmM2ODQ0ZDljNSJ9; laravel_session=eyJpdiI6ImdtcFRVcWVqVmVBdjhUUVp6SFo2S0E9PSIsInZhbHVlIjoieU5mRWRUSVlZUEd2VmFwN00zT1pobFwvYUtsY3loeDFyRWFOTjV5SjRQb3o3YXVreFBINFlTUG9rSTkzWHFlbmNvRG9SalBoSk9MN3hlVkhZK09EV3lRPT0iLCJtYWMiOiIxMWEyMDhhYmQ2YTE4YzBkMjM1MDE2NGY4ZGEwMzMxYTRiNmZiODQ4MjZlOTgwNzJhMzdkYTZkYzQxOThlYjUxIn0%3D; _ga_Z5QXH7PSMN=GS1.1.1735136798.14.1.1735139096.0.0.0',
+        'Cookie': '_ga=GA1.1.141094158.1735798558; _ga_Z5QXH7PSMN=GS1.1.1735798557.1.1.1735798674.0.0.0; XSRF-TOKEN=eyJpdiI6InN2bk9jSTlnaXFTYytlVm9oY0dJTUE9PSIsInZhbHVlIjoiOWI4T1k3dlVEWlJtVmpuZGVLTkVRbEsvUGFtOUQzM3hwQlloczJ6OU5RVVJuNlhySnFxemd4c2p3Wk9ZK2R2aXgrZVgzR2tDRVpOdlMrMGJSVFBWbjF1cmxDOWppYi9aYjlKcWp0SGVTMjVNbzk3K0tiMTlKemUvV2RadVFwZXgiLCJtYWMiOiJjZjMyNmIxMmQ0ODc4YTcxODE1NTk0OGY1M2ViOWRiODdlZTUzOGYyMTk0Y2E2ODZkNTUzMTIyZDgyNDZiYmIzIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6IjFvNTVScE5ZV0d1U2dVZTVNa3Z1QkE9PSIsInZhbHVlIjoiU1NYRTV6TUF2UnVXd3A2RjVFMzBjQ3hoRXFzQW1aa3JRSnJnUXk5TnRTMGd2VHZiNVhybUNUcXZHeS9GNFRIeXJ5a3dPU0N5MlBtVTI5Sk4vRUhOWUhmYmdjOU56TGxEZ2JnTHkvZGpqWW5hMlpnU2ZTRFJ3MmlrVEJzR2R4ZzAiLCJtYWMiOiI0MDU3ODJiNjMwZjEyZDhhZjQ0MDBjZTY0ZmZlYWU5Y2Q5NGNlYmVhMGRmMGNkYTRmZmIyNDMxM2VjNWU2OTEyIiwidGFnIjoiIn0%3D',
         'Sec-Fetch-Dest': 'document',
         'Sec-Fetch-Mode': 'navigate',
         'Sec-Fetch-Site': 'none',
@@ -180,36 +177,51 @@ def get_mpn_value(html_content):
 def main():
     client = connect_to_mongodb()
     for itemId in range(1, 43891):
+        item_id = itemId
         product_information = {}
-        product, status_code = fetch_product_page(itemId, base_url)
 
-        # Check the status code and decide to continue or exit
+        # Fetch the product page
+        product, status_code = fetch_product_page(item_id, base_url)
         if status_code != 200:
-            print(f"Failed to fetch item {itemId}. Status code: {status_code}. Stopping execution.")
-            sys.exit()  # Stop the script entirely
+            print(f"Failed to fetch product page for item ID {item_id}. Status code: {status_code}")
+            return
 
-        # Call the function with the example HTML content
-        product_info_json = extract_product_info(product)
-        quantity, eta = extract_availability_quantity_and_eta(json.loads(product_info_json).get('Availability'))
-        processed_prices = preprocess_prices(product)
-        amazon_restricted = check_amazon_restriction(product)
-        mpn = get_mpn_value(product)
+        soup = BeautifulSoup(product, 'html.parser')
 
-        # Populate the product information
-        # product_information['Manufacturer'] = json.loads(product_info_json).get('Manufacturer')
-        # product_information['Product UPC'] = json.loads(product_info_json).get('Product UPC')
-        product_information['MPN'] = mpn
-        product_information.update(processed_prices)
-        product_information['Quantity'] = quantity
-        product_information['ETA'] = eta
-        product_information['amazon_restricted'] = amazon_restricted
-        product_information['Inserted On'] = datetime.now()
+        # Extract and clean content from divs
+        elements = soup.find_all('div', class_='col-lg-6 col-sm-12')
+        data = [element.text.strip() for element in elements if element.text.strip()]
 
-        print(f"Got the information for item id {itemId}")
+        if len(data) > 1:
+            # Modify the second element for quantity
+            data[1] = f"Quantity: {data[1]}"
 
-        # Insert into MongoDB
-        insert_to_mongodb(client, itemId, product_information)
+        # Preprocess data to remove unwanted characters
+        processed_data = [item.replace('\n', ' ').replace('$', '') for item in data]
 
+        # Convert preprocessed data to a dictionary
+        data_dict = {
+            item.split(":", 1)[0].strip(): item.split(":", 1)[1].strip()
+            for item in processed_data if ":" in item
+        }
+
+        # Convert dictionary to JSON
+        json_data = json.loads(json.dumps(data_dict, indent=4))
+
+        product_information['Vendor SKU']              = json_data['SKU']
+        product_information['Buy Price']               = json_data.get('Wholesale')
+        product_information['Promotion Price']         = json_data.get('Your Price')
+        product_information['MAP Price']               = json_data.get('MAP Price')
+        product_information['Vendor Quantity']         = json_data.get('Quantity')
+        product_information['Amazon Restricted']       = check_amazon_restriction(product)
+        product_information['Inserted On']             = datetime.utcnow().isoformat()
+        # product_information.update(processed_prices)
+
+        # print(product_information)
+
+        # Uncomment to insert into MongoDB
+        client = connect_to_mongodb()
+        insert_to_mongodb(client, item_id, product_information)
 
 if __name__ == "__main__":
     main()
