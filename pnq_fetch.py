@@ -186,7 +186,6 @@ def main():
 
         try:
             print(f"Fetching product for item ID {item_id}...")
-            time.sleep(1)  # Add a 1 second delay between requests
 
             product, status_code = fetch_product_page(item_id, base_url)
             print(f"Status code for {item_id}: {status_code}")
