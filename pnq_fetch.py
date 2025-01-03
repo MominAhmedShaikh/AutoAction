@@ -180,7 +180,7 @@ def get_mpn_value(html_content):
 # 43891
 
 def main():
-    for itemId in range(18960, 43891):
+    for itemId in range(28074, 43891):
         item_id = itemId
         product_information = {}
 
